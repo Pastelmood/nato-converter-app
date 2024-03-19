@@ -1,9 +1,12 @@
 package online.meowplus.natoconverter.repository;
 
+import org.springframework.stereotype.Repository;
+
 import java.util.HashMap;
 import java.util.Map;
 
-public class NatoPhoneticMapping implements AlphabetMapping{
+@Repository
+public class NatoPhoneticMapping implements AlphabetMapping {
 
     private static final Map<Character, String> NATO_PHONETIC_MAP = new HashMap<>();
 
@@ -38,6 +41,18 @@ public class NatoPhoneticMapping implements AlphabetMapping{
 
     @Override
     public String getMapping(char letter) {
-        return null;
+
+        if (Character.isLowerCase(letter)) {
+            return NATO_PHONETIC_MAP
+                    .getOrDefault(Character.toUpperCase(letter), String.valueOf(letter))
+                    .toLowerCase();
+
+        } else if (Character.isUpperCase(letter)) {
+            return NATO_PHONETIC_MAP
+                    .getOrDefault(Character.toUpperCase(letter), String.valueOf(letter))
+                    .toUpperCase();
+        }
+
+        return String.valueOf(letter);
     }
 }
